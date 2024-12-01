@@ -1,0 +1,14 @@
+{
+  "name": "advent-of-code-2024",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MASBERNATQ/advent-of-code-2024.git"
+  },
+  "author": "Quentin Masbernat",
+  "homepage": "https://github.com/MASBERNATQ/advent-of-code-2024#readme",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
