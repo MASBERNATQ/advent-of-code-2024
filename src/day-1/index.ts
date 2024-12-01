@@ -1,17 +1,14 @@
-// https://adventofcode.com/2024/day/1.
-
-import fs from "node:fs";
-import path from "node:path";
+import Utils from "../utils";
 
 class Day1 {
-  private lists: [number[], number[]];
+  private data: [number[], number[]];
 
   constructor(input: string) {
-    this.lists = this.readInput(input);
+    this.data = this.parseInput(input);
   }
 
-  public findTotalDistance(): number {
-    const [firstList, secondList] = this.lists;
+  public partOne(): number {
+    const [firstList, secondList] = this.data;
 
     const firstListSorted = firstList.sort();
     const secondListSorted = secondList.sort();
@@ -25,30 +22,31 @@ class Day1 {
     return totalDistance;
   }
 
-  public findSimilarityScore(): number {
-    const [firstList, secondList] = this.lists;
+  public partTwo(): number {
+    const [firstList, secondList] = this.data;
 
     let similarityCode = 0;
 
     firstList.forEach((firstItem) => {
       const count = secondList.filter((secondItem) => firstItem === secondItem).length;
+
       similarityCode += firstItem * count;
     });
 
     return similarityCode;
   }
 
-  private readInput(input: string): [number[], number[]] {
+  private parseInput(input: string): [number[], number[]] {
     const firstList: number[] = [];
     const secondList: number[] = [];
 
     const lines = input.split("\n");
 
     lines.forEach((line) => {
-      const [num1, num2] = line.split(/\s+/).map(Number);
+      const [firstItem, secondItem] = line.split(/\s+/).map(Number);
 
-      firstList.push(num1);
-      secondList.push(num2);
+      firstList.push(firstItem);
+      secondList.push(secondItem);
     });
 
     return [firstList, secondList];
@@ -56,8 +54,10 @@ class Day1 {
 }
 
 // Result.
-const input = fs.readFileSync(path.join(__dirname, "input.txt"), { encoding: "utf-8" }).toString();
-const day1 = new Day1(input);
+(async () => {
+  const input = await Utils.readInput("1");
+  const day1 = new Day1(input);
 
-console.log(day1.findTotalDistance());
-console.log(day1.findSimilarityScore());
+  console.log(day1.partOne());
+  console.log(day1.partTwo());
+})();
