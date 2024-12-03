@@ -24,6 +24,20 @@ class Day3 {
   public partTwo() {
     let total = 0;
 
+    const regex = new RegExp(/do\(\)|don't\(\)|mul\((?<numbers>\d{1,3},\d{1,3})\)/, "gm");
+    const match = this.input.match(regex);
+
+    let isEnabled = true;
+
+    match?.forEach((value) => {
+      if (value === "do()") isEnabled = true;
+      else if (value === "don't()") isEnabled = false;
+      else if (isEnabled) {
+        const numbers = value.replace(regex, "$<numbers>").split(",").map(Number);
+        total += numbers.reduce(Math.imul);
+      }
+    });
+
     return total;
   }
 }
