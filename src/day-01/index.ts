@@ -13,34 +13,33 @@ class Day1 {
     const firstListSorted = firstList.sort();
     const secondListSorted = secondList.sort();
 
-    let totalDistance = 0;
+    let total = 0;
 
     firstListSorted.forEach((firstItem, index) => {
-      totalDistance += Math.abs(firstItem - secondListSorted[index]);
+      total += Math.abs(firstItem - secondListSorted[index]);
     });
 
-    return totalDistance;
+    return total;
   }
 
   public partTwo(): number {
     const [firstList, secondList] = this.input;
 
-    let similarityCode = 0;
+    let total = 0;
 
     firstList.forEach((firstItem) => {
       const count = secondList.filter((secondItem) => firstItem === secondItem).length;
-
-      similarityCode += firstItem * count;
+      total += firstItem * count;
     });
 
-    return similarityCode;
+    return total;
   }
 
   private parseInput(input: string): [number[], number[]] {
     const firstList: number[] = [];
     const secondList: number[] = [];
 
-    input.split("/n").forEach((line) => {
+    input.split("\n").forEach((line) => {
       const [firstItem, secondItem] = line.split(/\s+/).map(Number);
 
       firstList.push(firstItem);
@@ -53,7 +52,7 @@ class Day1 {
 
 // Result.
 (async () => {
-  await Utils.fetchInput(1);
+  await Utils.fetchInput();
 
   const input = Utils.readInput();
   const day1 = new Day1(input);

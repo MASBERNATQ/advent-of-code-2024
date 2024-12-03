@@ -44,7 +44,7 @@ class Day3 {
 
 // Result.
 (async () => {
-  await Utils.fetchInput(3);
+  await Utils.fetchInput();
 
   const input = Utils.readInput();
   const day3 = new Day3(input);

@@ -9,8 +9,8 @@ class Utils {
   /**
    * Get the input data on adventofcode website and write it to the input file.
    */
-  public static async fetchInput(day: number): Promise<void> {
-    const url = `https://adventofcode.com/2024/day/${day}/input`;
+  public static async fetchInput(): Promise<void> {
+    const url = `https://adventofcode.com/2024/day/${this.getDay()}/input`;
     const options: AxiosRequestConfig = {
       headers: { Cookie: `session=${process.env.SESSION_KEY}` },
     };
@@ -18,6 +18,16 @@ class Utils {
     return await axios
       .get<string>(url, options)
       .then(({ data }) => writeFileSync(INPUT_PATH, data));
+  }
+
+  /**
+   * Get the index day.
+   */
+  private static getDay() {
+    const day = process.env.npm_config_index?.replace(/^0/, "");
+    if (!day) throw new SyntaxError("Missing index flag on the command line.");
+
+    return day;
   }
 
   /**

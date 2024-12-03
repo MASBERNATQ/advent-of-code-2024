@@ -5,7 +5,7 @@
     "url": "git+https://github.com/MASBERNATQ/advent-of-code-2024.git"
   },
   "scripts": {
-    "start": "ts-node ./src/day-03/index"
+    "start": "ts-node ./src/day-${npm_config_index}/index"
   },
   "author": "Quentin Masbernat",
   "homepage": "https://github.com/MASBERNATQ/advent-of-code-2024#readme",
