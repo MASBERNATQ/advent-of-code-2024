@@ -1,10 +1,10 @@
 import Utils from "../utils";
 
 class Day2 {
-  private lines;
+  private input;
 
-  constructor(input: string[]) {
-    this.lines = input;
+  constructor(input: string) {
+    this.input = input.split("\n");
   }
 
   private isSorted(list: number[]) {
@@ -26,7 +26,7 @@ class Day2 {
   public partOne() {
     let total = 0;
 
-    this.lines.forEach((line) => {
+    this.input.forEach((line) => {
       const numbers = line.split(" ").map(Number);
 
       const isSorted = this.isSorted(numbers);
@@ -41,7 +41,7 @@ class Day2 {
   public partTwo() {
     let total = 0;
 
-    this.lines.forEach((line) => {
+    this.input.forEach((line) => {
       const numbers = line.split(" ").map(Number);
 
       for (let index = -1; index < numbers.length; index++) {

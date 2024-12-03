@@ -23,7 +23,7 @@ class Utils {
   /**
    * Read input file.
    */
-  public static readInput(): string[] {
+  public static readInput(): string {
     const data = readFileSync(INPUT_PATH, { encoding: "utf-8" }).toString();
 
     return this.parseInput(data);
@@ -32,8 +32,8 @@ class Utils {
   /**
    * Parse the input data.
    */
-  private static parseInput(input: string): string[] {
-    return input.trim().split("\n");
+  private static parseInput(input: string): string {
+    return input.trim();
   }
 }
 

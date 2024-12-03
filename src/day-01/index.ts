@@ -1,14 +1,14 @@
 import Utils from "../utils";
 
 class Day1 {
-  private lists: [number[], number[]];
+  private input: [number[], number[]];
 
-  constructor(input: string[]) {
-    this.lists = this.parseInput(input);
+  constructor(input: string) {
+    this.input = this.parseInput(input);
   }
 
   public partOne(): number {
-    const [firstList, secondList] = this.lists;
+    const [firstList, secondList] = this.input;
 
     const firstListSorted = firstList.sort();
     const secondListSorted = secondList.sort();
@@ -23,7 +23,7 @@ class Day1 {
   }
 
   public partTwo(): number {
-    const [firstList, secondList] = this.lists;
+    const [firstList, secondList] = this.input;
 
     let similarityCode = 0;
 
@@ -36,11 +36,11 @@ class Day1 {
     return similarityCode;
   }
 
-  private parseInput(input: string[]): [number[], number[]] {
+  private parseInput(input: string): [number[], number[]] {
     const firstList: number[] = [];
     const secondList: number[] = [];
 
-    input.forEach((line) => {
+    input.split("/n").forEach((line) => {
       const [firstItem, secondItem] = line.split(/\s+/).map(Number);
 
       firstList.push(firstItem);
