@@ -30,7 +30,7 @@ class Day5 {
     return list.at(Math.floor(list.length / 2)) ?? 0;
   }
 
-  private canAddElement(item: number, remainingItems: number[]): boolean {
+  private canAddItem(item: number, remainingItems: number[]): boolean {
     return !remainingItems.some((remainingItem) =>
       this.input.rules.some(
         ([preceding, following]) => preceding === remainingItem && following === item
@@ -59,9 +59,9 @@ class Day5 {
       const orderedItems: number[] = [];
 
       while (remainingItems.length) {
-        remainingItems.forEach((item, index) => {
-          if (this.canAddElement(item, remainingItems)) {
-            orderedItems.push(item);
+        remainingItems.forEach((remainingItem, index) => {
+          if (this.canAddItem(remainingItem, remainingItems)) {
+            orderedItems.push(remainingItem);
             remainingItems.splice(index, 1);
           }
         });
@@ -76,7 +76,7 @@ class Day5 {
 
 // Result.
 (async () => {
-  await Utils.fetchInput();
+  // await Utils.fetchInput();
 
   const input = Utils.readInput();
   const day5 = new Day5(input);
