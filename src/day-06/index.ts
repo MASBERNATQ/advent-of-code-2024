@@ -26,7 +26,8 @@ const NEXT_DIRECTION = {
   [DirectionSymbol.LEFT]: DirectionSymbol.TOP,
 };
 
-const OBSTACLE = "#";
+const OBTACLE_SYMBOLS = ["#", "O"];
+const EMPTY_SYMBOL = ".";
 
 class Day6 {
   private input;
@@ -62,19 +63,29 @@ class Day6 {
     }
 
     if (!position) {
-      throw new Error("The target was not found");
+      throw new Error("The target was not found.");
     }
 
     return position;
   }
 
-  public partOne() {
+  private stringifyValue(position: Position, directionSymbol?: DirectionSymbol): string {
+    return JSON.stringify({ ...position, d: directionSymbol });
+  }
+
+  private getVisitedPositions() {
+    let isBlocked = false;
+
     const visitedPositions: Set<string> = new Set();
+    const visitedPositionsWithDirection: Set<string> = new Set();
 
     // Target's starting position.
     let targetPosition = this.findTargetPosition();
     let targetSymbol = this.input[targetPosition.y][targetPosition.x] as DirectionSymbol;
-    visitedPositions.add(JSON.stringify(targetPosition));
+
+    // Add the starting position.
+    visitedPositions.add(this.stringifyValue(targetPosition));
+    visitedPositionsWithDirection.add(this.stringifyValue(targetPosition, targetSymbol));
 
     while (true) {
       const targetDirection = DIRECTION[targetSymbol];
@@ -83,28 +94,62 @@ class Day6 {
         y: targetPosition.y + targetDirection.dy,
       };
 
-      if (
-        this.isInBounds(nextPosition) &&
-        this.input[nextPosition.y][nextPosition.x] !== OBSTACLE
-      ) {
-        targetPosition = nextPosition;
-        visitedPositions.add(JSON.stringify(targetPosition));
-      } else {
-        targetSymbol = NEXT_DIRECTION[targetSymbol];
-      }
-
+      // If the target goes out of bounds.
       if (!this.isInBounds(nextPosition)) {
         break;
       }
+
+      // If the target loops.
+      if (visitedPositionsWithDirection.has(this.stringifyValue(nextPosition, targetSymbol))) {
+        isBlocked = true;
+        break;
+      }
+
+      // If the next position have no obtacles.
+      if (!OBTACLE_SYMBOLS.includes(this.input[nextPosition.y][nextPosition.x])) {
+        targetPosition = nextPosition;
+
+        // Add the next position.
+        visitedPositions.add(this.stringifyValue(targetPosition));
+        visitedPositionsWithDirection.add(this.stringifyValue(targetPosition, targetSymbol));
+      } else {
+        targetSymbol = NEXT_DIRECTION[targetSymbol];
+      }
     }
 
-    return visitedPositions.size;
+    return {
+      isBlocked,
+      positions: Array.from(visitedPositions).map((visitedPosition) =>
+        JSON.parse(visitedPosition)
+      ) as Position[],
+    };
+  }
+
+  public partOne() {
+    return this.getVisitedPositions().positions.length;
   }
 
   public partTwo() {
-    let total = 0;
+    let blockingPositions = 0;
+    const initialVisitedPositions = this.getVisitedPositions().positions;
 
-    return total;
+    initialVisitedPositions.forEach((visitedPosition, index) => {
+      // Skip the target's starting position.
+      if (index === 0) return;
+
+      // Add obstacle.
+      this.input[visitedPosition.y][visitedPosition.x] = OBTACLE_SYMBOLS[1];
+
+      // If the obstacle blocks the target's path.
+      if (this.getVisitedPositions().isBlocked) {
+        blockingPositions++;
+      }
+
+      // Remove obstacle.
+      this.input[visitedPosition.y][visitedPosition.x] = EMPTY_SYMBOL;
+    });
+
+    return blockingPositions;
   }
 }
 
