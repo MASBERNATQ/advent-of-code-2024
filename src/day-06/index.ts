@@ -154,12 +154,8 @@ class Day6 {
 }
 
 // Result.
-(async () => {
-  // await Utils.fetchInput();
+const input = Utils.readInput();
+const day6 = new Day6(input);
 
-  const input = Utils.readInput();
-  const day6 = new Day6(input);
-
-  console.log(day6.partOne());
-  console.log(day6.partTwo());
-})();
+console.log(day6.partOne());
+console.log(day6.partTwo());

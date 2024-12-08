@@ -9,25 +9,18 @@ class Utils {
   /**
    * Get the input data on adventofcode website and write it to the input file.
    */
-  public static async fetchInput(): Promise<void> {
-    const url = `https://adventofcode.com/2024/day/${this.getDay()}/input`;
+  public static async fetchInput(index: string): Promise<void> {
+    const url = `https://adventofcode.com/2024/day/${index}/input`;
     const options: AxiosRequestConfig = {
       headers: { Cookie: `session=${process.env.SESSION_KEY}` },
     };
 
     return await axios
       .get<string>(url, options)
-      .then(({ data }) => writeFileSync(INPUT_PATH, data));
-  }
-
-  /**
-   * Get the index day.
-   */
-  private static getDay() {
-    const day = process.env.npm_config_index?.replace(/^0/, "");
-    if (!day) throw new SyntaxError("Missing index flag on the command line.");
-
-    return day;
+      .then(({ data }) => writeFileSync(INPUT_PATH, data))
+      .catch(() => {
+        throw new Error("An error occured while retrieving the input data.");
+      });
   }
 
   /**
@@ -36,14 +29,7 @@ class Utils {
   public static readInput(): string {
     const data = readFileSync(INPUT_PATH, { encoding: "utf-8" }).toString();
 
-    return this.parseInput(data);
-  }
-
-  /**
-   * Parse the input data.
-   */
-  private static parseInput(input: string): string {
-    return input.trim();
+    return data.trim();
   }
 }
 

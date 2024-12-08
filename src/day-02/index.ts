@@ -63,12 +63,8 @@ class Day2 {
 }
 
 // Result.
-(async () => {
-  await Utils.fetchInput();
+const input = Utils.readInput();
+const day2 = new Day2(input);
 
-  const input = Utils.readInput();
-  const day2 = new Day2(input);
-
-  console.log(day2.partOne());
-  console.log(day2.partTwo());
-})();
+console.log(day2.partOne());
+console.log(day2.partTwo());
