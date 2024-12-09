@@ -16,8 +16,8 @@ class Utils {
     };
 
     return await axios
-      .get<string>(url, options)
-      .then(({ data }) => writeFileSync(INPUT_PATH, data))
+      .get(url, options)
+      .then(({ data }) => writeFileSync(INPUT_PATH, String(data)))
       .catch(() => {
         throw new Error("An error occured while retrieving the input data.");
       });
