@@ -37,9 +37,48 @@ class Day9 {
   }
 
   public partTwo() {
-    let total = 0;
+    let list: string[][] = [];
 
-    return total;
+    this.input.forEach((value, index) => {
+      const isEven = index % 2 === 0;
+      const identifier = isEven ? String(index / 2) : EMPTY_VALUE;
+
+      if (!value) return;
+
+      list.push(Array.from<string>({ length: value }).fill(identifier));
+    });
+
+    block: for (let i = list.length - 1; i >= 0; i--) {
+      const element = [...list[i]];
+
+      if (element[0] === EMPTY_VALUE) continue;
+
+      for (let j = 0; j < i; j++) {
+        const emptyElement = [...list[j]];
+
+        if (emptyElement[0] !== EMPTY_VALUE || emptyElement.length < element.length) {
+          continue;
+        }
+
+        if (emptyElement.length === element.length) {
+          list[j] = [...list[i]];
+          list[i].fill(EMPTY_VALUE);
+        } else {
+          list[i].fill(EMPTY_VALUE);
+          list.splice(j, 1, element, list[j].splice(list[i].length));
+          i++;
+        }
+
+        continue block;
+      }
+    }
+
+    return list
+      .flat()
+      .reduce(
+        (prev, current, index) => (current !== EMPTY_VALUE ? prev + Number(current) * index : prev),
+        0
+      );
   }
 }
 
